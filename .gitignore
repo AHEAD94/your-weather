@@ -1,0 +1,38 @@
+# Xcode
+.DS_Store
+.idea/
+*.swp
+*.xcodeproj/*
+*.xcworkspace/*
+DerivedData/
+build/
+*.hmap
+*.xcuserstate
+*.moved-aside
+*.swiftenv
+
+# Swift Package Manager
+/.build/
+/Packages
+.swiftpm/
+
+# Python (Flask)
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+venv/
+env/
+*.env
+
+# PostgreSQL
+*.sql
+*.db
+
+# Render (Hosting)
+.render/
+
+# Others
+*.log
+*.tmp
+*.bak
