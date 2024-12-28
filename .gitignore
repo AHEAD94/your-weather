@@ -11,6 +11,9 @@ build/
 *.moved-aside
 *.swiftenv
 
+# Sensitive file exclusion
+keys.plist
+
 # Swift Package Manager
 /.build/
 /Packages
