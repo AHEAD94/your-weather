@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Management</title>
+</head>
+<body>
+    <h1>Weather Management - Test All Functions</h1>
+
+    <!-- Form to Add Weather Data -->
+    <h2>Add Weather Data</h2>
+    <form id="weatherForm">
+        <label>City: <input type="text" name="city" value="Seoul" required></label><br>
+        <label>Temperature: <input type="number" name="temperature" step="0.1" value="-4" required></label><br>
+        <label>Description: <input type="text" name="description" value="맑음" required></label><br>
+        <label>Min Temp: <input type="number" name="min_temp" step="0.1" value="-7" required></label><br>
+        <label>Max Temp: <input type="number" name="max_temp" step="0.1" value="-1" required></label><br>
+        <label>Feels Like: <input type="number" name="feels_like" step="0.1" value="-6" required></label><br>
+        <label>Wind: <input type="number" name="wind" step="0.1" value="1.65" required></label><br>
+        <label>Clouds: <input type="number" name="clouds" step="0.1" value="0" required></label><br>
+        <label>Humidity: <input type="number" name="humidity" step="0.1" value="15" required></label><br>
+        <label>Sunrise: <input type="text" name="sunrise" value="07:24" required></label><br>
+        <label>Sunset: <input type="text" name="sunset" value="18:11" required></label><br>
+        <button type="submit">Add Weather</button>
+    </form>
+
+    <!-- Display Weather Data -->
+    <h2>Weather Data</h2>
+    <ul id="weatherList"></ul>
+
+    <!-- Update Weather Data -->
+    <h2>Update Weather Data</h2>
+    <form id="updateWeatherForm">
+        <label>Weather ID: <input type="number" id="updateWeatherId" value="0" required></label><br>
+        <label>City: <input type="text" id="updateCity" value="Unknown" required></label><br>
+        <label>Temperature: <input type="number" id="updateTemperature" step="0.1" value="0" required></label><br>
+        <label>Description: <input type="text" id="updateDescription" value="0" required></label><br>
+        <label>Min Temp: <input type="number" id="updateMinTemp" step="0.1" value="0" required></label><br>
+        <label>Max Temp: <input type="number" id="updateMaxTemp" step="0.1" value="0" required></label><br>
+        <label>Feels Like: <input type="number" id="updateFeelsLike" step="0.1" value="0" required></label><br>
+        <label>Wind: <input type="number" id="updateWind" step="0.1" value="0" required></label><br>
+        <label>Clouds: <input type="number" id="updateClouds" step="0.1" value="0" required></label><br>
+        <label>Humidity: <input type="number" id="updateHumidity" step="0.1" value="0" required></label><br>
+        <label>Sunrise: <input type="text" id="updateSunrise" value="0" required></label><br>
+        <label>Sunset: <input type="text" id="updateSunset" value="0" required></label><br>
+        <button type="submit">Update Weather</button>
+    </form>
+
+    <!-- Delete Weather Data -->
+    <h2>Delete Weather Data</h2>
+    <form id="deleteWeatherForm">
+        <label>Weather ID: <input type="number" id="deleteWeatherId" value="1" required></label><br>
+        <button type="submit">Delete Weather</button>
+    </form>
+
+    <!-- Clear All Weather Data -->
+    <h2>Clear All Weather Data</h2>
+    <form id="clearWeatherForm">
+        <button type="submit">Clear All Weather Data</button>
+    </form>
+
+    <script>
+        // Handle form submission to clear all weather data
+        document.getElementById('clearWeatherForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const response = await fetch('/weather/clear', {
+                method: 'DELETE'
+            });
+
+            if (response.ok) {
+                alert('All weather data has been deleted!');
+                fetchWeather();  // Refresh the weather data list after deletion
+            } else {
+                alert('Error clearing weather data');
+            }
+        });
+    </script>
+
+    <!-- Weather Details -->
+    <h2>Weather Details</h2>
+    <form id="getWeatherForm">
+        <label>Weather ID: <input type="number" id="getWeatherId" value="1" required></label><br>
+        <button type="submit">Get Weather</button>
+    </form>
+    <div id="weatherDetails"></div>
+
+    <script>
+        // Helper function to fetch and display weather data with IDs
+        async function fetchWeather() {
+            const response = await fetch('/weather');
+            const weatherData = await response.json();
+            const weatherList = document.getElementById('weatherList');
+            weatherList.innerHTML = ''; // Clear existing list
+
+            if (weatherData.length === 0) {
+                weatherList.innerHTML = '<li>No weather data found.</li>';
+                return;
+            }
+
+            weatherData.forEach(weather => {
+                const li = document.createElement('li');
+                li.innerHTML = `ID: ${weather.id} | City: ${weather.city} | Temp: ${weather.temperature}°C | Description: ${weather.description}`;
+                weatherList.appendChild(li);
+            });
+        }
+
+        // Fetch weather data on page load
+        fetchWeather();
+
+        // Handle form submission to add weather data
+        document.getElementById('weatherForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData.entries());
+            data.temperature = parseFloat(data.temperature);
+            data.min_temp = parseFloat(data.min_temp);
+            data.max_temp = parseFloat(data.max_temp);
+            data.feels_like = parseFloat(data.feels_like);
+            data.wind = parseFloat(data.wind);
+            data.clouds = parseFloat(data.clouds);
+            data.humidity = parseFloat(data.humidity);
+
+            const response = await fetch('/weather', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                alert('Weather added!');
+                fetchWeather();  // Refresh the weather data list after adding
+            } else {
+                alert('Error adding weather');
+            }
+        });
+
+        // Handle form submission to update weather data
+        document.getElementById('updateWeatherForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const data = {
+                city: document.getElementById('updateCity').value,
+                temperature: parseFloat(document.getElementById('updateTemperature').value),
+                description: document.getElementById('updateDescription').value,
+                min_temp: parseFloat(document.getElementById('updateMinTemp').value),
+                max_temp: parseFloat(document.getElementById('updateMaxTemp').value),
+                feels_like: parseFloat(document.getElementById('updateFeelsLike').value),
+                wind: parseFloat(document.getElementById('updateWind').value),
+                clouds: parseFloat(document.getElementById('updateClouds').value),
+                humidity: parseFloat(document.getElementById('updateHumidity').value),
+                sunrise: document.getElementById('updateSunrise').value,
+                sunset: document.getElementById('updateSunset').value
+            };
+            const id = document.getElementById('updateWeatherId').value;
+
+            const response = await fetch(`/weather/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                alert('Weather updated!');
+                fetchWeather();  // Refresh the weather data list after updating
+            } else {
+                alert('Error updating weather');
+            }
+        });
+
+        // Handle form submission to delete weather data
+        document.getElementById('deleteWeatherForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const id = document.getElementById('deleteWeatherId').value;
+
+            const response = await fetch(`/weather/${id}`, {
+                method: 'DELETE'
+            });
+
+            if (response.ok) {
+                alert('Weather deleted!');
+                fetchWeather();  // Refresh the weather data list after deletion
+            } else {
+                alert('Error deleting weather');
+            }
+        });
+
+        // Handle form submission to get weather data
+        document.getElementById('getWeatherForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const id = document.getElementById('getWeatherId').value;
+
+            const response = await fetch(`/weather/${id}`);
+            if (response.ok) {
+                const weather = await response.json();
+                let details = '<h3>Details:</h3>';
+                for (let key in weather) {
+                    details += `<p><strong>${key}:</strong> ${weather[key]}</p>`;
+                }
+                document.getElementById('weatherDetails').innerHTML = details;
+            } else {
+                document.getElementById('weatherDetails').innerHTML = 'Weather data not found.';
+            }
+        });
+    </script>
+</body>
+</html>
