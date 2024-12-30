@@ -40,13 +40,7 @@ struct HomePage: View {
                         MyClosetView()
                     }
                     
-                    VStack {
-                        Text("날씨 체감 Insight")
-                        Text("밖에 어때, How is Outside")
-                    }
-                    .font(.system(.footnote, weight: .regular))
-                    .foregroundStyle(.secondary)
-                    .padding(.top, 30)
+                    FooterMessage()
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal)
