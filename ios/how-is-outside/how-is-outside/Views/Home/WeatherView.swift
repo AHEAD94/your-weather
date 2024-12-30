@@ -36,9 +36,6 @@ struct WeatherView: View {
         .padding()
         .background(Color.blue.opacity(0.7))
         .cornerRadius(12)
-        .onAppear {
-            viewModel.fetchWeather(city: "Seoul")
-        }
     }
 }
 
