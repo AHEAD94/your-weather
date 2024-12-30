@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct HomePage: View {
+    @StateObject private var viewModel = WeatherViewModel()
+    
     var body: some View {
         ScrollView {
             VStack {
@@ -45,6 +47,9 @@ struct HomePage: View {
             .frame(maxWidth: .infinity)
             .padding(.horizontal)
             .padding(.bottom)
+            .onAppear {
+                viewModel.fetchWeather(city: "Seoul")
+            }
         }
     }
 }
