@@ -11,6 +11,7 @@ struct WeatherResponse: Codable {
     let main: MainWeather
     let wind: Wind
     let clouds: Clouds
+    let dt: Int
     let sys: Sys
     let name: String
 }
