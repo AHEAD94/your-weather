@@ -8,7 +8,6 @@
 import Foundation
 
 class WeatherViewModel: ObservableObject {
-    @Published var currentTime: String = ""
     @Published var currentTemp: String = ""
     @Published var feelsLikeTemp: String = ""
     @Published var humidity: String = ""
@@ -31,7 +30,6 @@ class WeatherViewModel: ObservableObject {
         how_is_outside.fetchWeather(city: city) { response in
             DispatchQueue.main.async {
                 if let data = response {
-                    self.currentTime = "\(data.dt)°C"
                     self.currentTemp = "\(data.main.temp)°C"
                     self.feelsLikeTemp = "\(data.main.feels_like)°C"
                     self.humidity = "\(data.main.humidity)%"
@@ -54,7 +52,6 @@ class WeatherViewModel: ObservableObject {
     
     // 날씨 데이터 초기화
     private func clearWeatherData() {
-        currentTime = ""
         currentTemp = ""
         feelsLikeTemp = ""
         humidity = ""
@@ -99,7 +96,6 @@ class WeatherViewModel: ObservableObject {
             if let data = try? Data(contentsOf: fileURL) {
                 let decoder = JSONDecoder()
                 if let weatherData = try? decoder.decode(WeatherResponse.self, from: data) {
-                    self.currentTime = formatUnixTime(weatherData.dt)
                     self.currentTemp = "\(weatherData.main.temp)°C"
                     self.feelsLikeTemp = "\(weatherData.main.feels_like)°C"
                     self.humidity = "\(weatherData.main.humidity)%"

@@ -11,11 +11,9 @@ struct WeatherView: View {
     @StateObject private var viewModel = WeatherViewModel()
     
     var body: some View {
-        VStack(spacing: 7) {
+        VStack(spacing: 8) {
             Text("\(viewModel.cityName)")
                 .font(.largeTitle)
-            Text("\(viewModel.currentTime)")
-                .font(.subheadline)
             Text("\(viewModel.currentTemp)")
                 .font(.largeTitle)
             Text("\(viewModel.weatherDescription)")
