@@ -10,8 +10,11 @@ import SwiftUI
 struct WeatherSaveView: View {
     @State private var selectedRating: String? = nil  // 상태를 관리
     @State private var isShowingAlert = false
+    @State private var isShowingSuccessMessage = false
     
     @StateObject private var viewModel = WeatherViewModel()
+    
+    @Environment(\.dismiss) var dismiss  // 이전 화면으로 돌아가는 기능
     
     var body: some View {
         ScrollView {
@@ -34,16 +37,41 @@ struct WeatherSaveView: View {
         .navigationBarTitle("날씨 체감 등록", displayMode: .inline)
         .navigationBarItems(trailing: Button("확인") {
             if let rating = selectedRating {
+                // 날씨 데이터와 평가를 딕셔너리로 결합
+                let weatherData: [String: Any] = [
+                    "rating": rating,
+                    "city": viewModel.cityName,
+                    "time": viewModel.currentTime,
+                    "temperature": viewModel.currentTemp,
+                    "description": viewModel.weatherDescription,
+                    "min_temp": viewModel.dailyMinTemp,
+                    "max_temp": viewModel.dailyMaxTemp,
+                    "feels_like": viewModel.feelsLikeTemp,
+                    "wind": viewModel.windSpeed,
+                    "clouds": viewModel.cloudiness,
+                    "humidity": viewModel.humidity,
+                    "sunrise": viewModel.sunrise,
+                    "sunset": viewModel.sunset
+                ]
+                
                 // 서버에 데이터 삽입 요청
-                print("\(viewModel.cityName)")
-                print("\(viewModel.currentTemp)")
-                print("\(rating)")
+                addWeatherFeedback(weatherData: weatherData)
+                
+                // 알림창을 표시하고 서버 요청 후 알림창 호출
+                isShowingSuccessMessage = true  // 알림창 표시
             } else {
                 isShowingAlert = true
             }
         })
+        .alert("등록 완료", isPresented: $isShowingSuccessMessage) {
+            Button("확인", role: .cancel) {
+                dismiss()  // 알림창 확인 버튼 클릭 시 이전 화면으로 돌아가기
+            }
+        } message: {
+            Text("체감 정보를 등록하였습니다.")
+        }
         .alert("버튼 선택", isPresented: $isShowingAlert) {
-            Button("OK", role: .cancel) { }
+            Button("확인", role: .cancel) { }
         } message: {
             Text("날씨 체감 버튼을 선택해주세요.")
         }
