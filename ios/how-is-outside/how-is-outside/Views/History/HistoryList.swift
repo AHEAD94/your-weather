@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HistoryList: View {
-    let feedbacks = ModelData().feedbacks
+    @StateObject private var modelData = FeedbackModelData.shared
     
     var body: some View {
         NavigationSplitView {
@@ -40,7 +40,7 @@ struct HistoryList: View {
                 .padding(12)
                 
                 List {
-                    ForEach(feedbacks) { feedback in
+                    ForEach(modelData.feedbacks) { feedback in
                         NavigationLink {
                             FeedbackDetail()
                         } label: {
@@ -49,7 +49,7 @@ struct HistoryList: View {
                     }
                 }
                 .listStyle(.plain)
-                .animation(.default, value: feedbacks)
+                .animation(.default, value: modelData.feedbacks)
             }
         } detail: {
             Text("체감 정보 선택")
