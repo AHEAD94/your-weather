@@ -6,10 +6,8 @@
 //
 
 import Foundation
-import SwiftUI
-import CoreLocation
 
-struct Feedback: Hashable, Codable, Identifiable {    
+struct Feedback: Codable, Identifiable, Equatable {
     var id: String
     var date: String
     var city: String

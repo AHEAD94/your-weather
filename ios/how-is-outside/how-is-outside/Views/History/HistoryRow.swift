@@ -37,7 +37,7 @@ struct HistoryRow: View {
 }
 
 #Preview {
-    let feedbacks = ModelData().feedbacks
+    let feedbacks = FeedbackModelData().feedbacks
     return Group {
         HistoryRow(feedback: feedbacks[0])
         HistoryRow(feedback: feedbacks[1])

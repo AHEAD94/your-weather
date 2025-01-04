@@ -13,6 +13,7 @@ struct WeatherSaveView: View {
     @State private var isShowingSuccessMessage = false
     
     @StateObject private var viewModel = WeatherViewModel()
+    @StateObject private var modelData = FeedbackModelData.shared
     
     @Environment(\.dismiss) var dismiss  // 이전 화면으로 돌아가는 기능
     
@@ -63,9 +64,32 @@ struct WeatherSaveView: View {
                     "sunset": viewModel.sunset,
                     "user_rating": rating
                 ]
-                
+                                
                 // 서버에 데이터 삽입 요청
                 addWeatherFeedback(weatherData: weatherData)
+                
+                // Feedback 객체로 변환하여 모델에 저장
+                let newFeedback = Feedback(
+                    id: UUID().uuidString,
+                    date: formattedDate,
+                    city: viewModel.cityName,
+                    time: viewModel.currentTime,
+                    temperature: viewModel.currentTemp,
+                    description: viewModel.weatherDescription,
+                    min_temp: viewModel.dailyMinTemp,
+                    max_temp: viewModel.dailyMaxTemp,
+                    feels_like: viewModel.feelsLikeTemp,
+                    wind: viewModel.windSpeed,
+                    clouds: viewModel.cloudiness,
+                    humidity: viewModel.humidity,
+                    sunrise: viewModel.sunrise,
+                    sunset: viewModel.sunset,
+                    user_rating: rating
+                )
+                
+                // 모델에 피드백 추가
+                modelData.feedbacks.append(newFeedback)
+                modelData.saveFeedbacks()
                 
                 // 알림창을 표시하고 서버 요청 후 알림창 호출
                 isShowingSuccessMessage = true  // 알림창 표시

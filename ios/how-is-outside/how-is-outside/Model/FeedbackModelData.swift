@@ -7,29 +7,47 @@
 
 import Foundation
 
-@Observable
-class ModelData {
-    var feedbacks: [Feedback] = load("feedbackData.json")
-}
+class FeedbackModelData: ObservableObject {
+    static let shared = FeedbackModelData()
+    private let fileName = "feedbackData.json"
+    
+    @Published var feedbacks: [Feedback] = []
 
-func load<T: Decodable>(_ filename: String) -> T {
-    let data: Data
-    
-    guard let file = Bundle.main.url(forResource: filename, withExtension: nil)
-    else {
-        fatalError("Could't find \(filename) in main bundle.")
+    init() {
+        loadFeedbacks()
     }
     
-    do {
-        data = try Data(contentsOf: file)
-    } catch {
-        fatalError("Couldn't load \(filename) from name bundle:\n\(error)")
+    private func getDocumentDirectory() -> URL? {
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
     }
     
-    do {
-        let decoder = JSONDecoder()
-        return try decoder.decode(T.self, from: data)
-    } catch {
-        fatalError("Couldn't parse \(filename) as \(T.self):\n\(error)")
+    func saveFeedbacks() {
+        guard let url = getDocumentDirectory()?.appendingPathComponent(fileName) else {
+            print("Error: Could not find document directory.")
+            return
+        }
+        
+        do {
+            let data = try JSONEncoder().encode(feedbacks)
+            try data.write(to: url)
+            print("Feedbacks saved successfully.")
+        } catch {
+            print("Error saving feedbacks: \(error)")
+        }
+    }
+    
+    func loadFeedbacks() {
+        guard let url = getDocumentDirectory()?.appendingPathComponent(fileName) else {
+            print("Error: Could not find document directory.")
+            return
+        }
+        
+        do {
+            let data = try Data(contentsOf: url)
+            feedbacks = try JSONDecoder().decode([Feedback].self, from: data)
+            print("Feedbacks loaded successfully.")
+        } catch {
+            print("Error loading feedbacks: \(error)")
+        }
     }
 }
