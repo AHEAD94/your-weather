@@ -14,20 +14,25 @@ struct HistoryRow: View {
         HStack {
             Text(feedback.user_rating)
                 .frame(maxWidth: .infinity)
+                .lineLimit(1)
             Spacer()
             Text(feedback.description)
                 .frame(maxWidth: .infinity)
+                .lineLimit(1)
             Spacer()
             Text(feedback.temperature)
                 .frame(maxWidth: .infinity)
+                .lineLimit(1)
             Spacer()
             Text(feedback.humidity)
                 .frame(maxWidth: .infinity)
+                .lineLimit(1)
             Spacer()
             Text(feedback.wind)
                 .frame(maxWidth: .infinity)
+                .lineLimit(1)
         }
-        .padding(7)
+        .padding(.vertical, 7)
     }
 }
 
