@@ -15,10 +15,13 @@ struct HistoryRow: View {
             Text(feedback.user_rating)
                 .frame(maxWidth: .infinity)
                 .lineLimit(1)
+                .padding(.vertical, 8)
             Spacer()
             Text(feedback.description)
                 .frame(maxWidth: .infinity)
-                .lineLimit(1)
+                .lineLimit(2)
+                .multilineTextAlignment(.center)
+                .minimumScaleFactor(0.1)
             Spacer()
             Text(feedback.temperature)
                 .frame(maxWidth: .infinity)
@@ -32,7 +35,6 @@ struct HistoryRow: View {
                 .frame(maxWidth: .infinity)
                 .lineLimit(1)
         }
-        .padding(.vertical, 7)
     }
 }
 
@@ -41,6 +43,6 @@ struct HistoryRow: View {
     return Group {
         HistoryRow(feedback: feedbacks[0])
         HistoryRow(feedback: feedbacks[1])
-        HistoryRow(feedback: feedbacks[2])
+        HistoryRow(feedback: feedbacks[13])
     }
 }

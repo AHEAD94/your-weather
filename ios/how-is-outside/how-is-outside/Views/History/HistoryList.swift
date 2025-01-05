@@ -11,33 +11,21 @@ struct HistoryList: View {
     @StateObject private var modelData = FeedbackModelData.shared
     
     var body: some View {
-        NavigationSplitView {
+        NavigationStack {
             VStack {
-                Text("체감 정보")
-                    .font(.system(.largeTitle, weight: .bold))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal)
-                    .padding(.bottom, 8)
-                
                 HStack {
-                    Spacer(minLength: 7)
-                    Image(systemName: "person.and.background.striped.horizontal")
-                        .frame(maxWidth: .infinity)
+                    Text("체감 정보")
+                        .font(.system(.largeTitle, weight: .bold))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal)
+                        .padding(.bottom, 8)
+                    
                     Spacer()
-                    Image(systemName: "cloud.sun.fill")
-                        .frame(maxWidth: .infinity)
-                    Spacer()
-                    Image(systemName: "thermometer.medium")
-                        .frame(maxWidth: .infinity)
-                    Spacer()
-                    Image(systemName: "humidity.fill")
-                        .frame(maxWidth: .infinity)
-                    Spacer()
-                    Image(systemName: "wind")
-                        .frame(maxWidth: .infinity)
-                    Spacer(minLength: 25)
+                    
+                    ServerButton()
                 }
-                .padding(12)
+                
+                FeedbackDataIcons()
                 
                 List {
                     ForEach(modelData.feedbacks) { feedback in
@@ -51,8 +39,6 @@ struct HistoryList: View {
                 .listStyle(.plain)
                 .animation(.default, value: modelData.feedbacks)
             }
-        } detail: {
-            Text("체감 정보 선택")
         }
     }
 }
