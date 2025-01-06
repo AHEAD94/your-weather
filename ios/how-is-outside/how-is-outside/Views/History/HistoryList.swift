@@ -35,11 +35,17 @@ struct HistoryList: View {
                             HistoryRow(feedback: feedback)
                         }
                     }
+                    .onDelete(perform: deleteFeedback)
                 }
                 .listStyle(.plain)
                 .animation(.default, value: modelData.feedbacks)
             }
         }
+    }
+    
+    private func deleteFeedback(at offsets: IndexSet) {
+        modelData.feedbacks.remove(atOffsets: offsets)
+        modelData.saveFeedbacks() // 로컬 데이터 업데이트
     }
 }
 
