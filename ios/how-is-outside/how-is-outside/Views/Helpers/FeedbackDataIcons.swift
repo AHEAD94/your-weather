@@ -11,6 +11,9 @@ struct FeedbackDataIcons: View {
     var body: some View {
         HStack {
             Spacer(minLength: 7)
+            Image(systemName: "calendar.badge.clock")
+                .frame(maxWidth: .infinity)
+            Spacer()
             Image(systemName: "person.and.background.striped.horizontal")
                 .frame(maxWidth: .infinity)
             Spacer()
