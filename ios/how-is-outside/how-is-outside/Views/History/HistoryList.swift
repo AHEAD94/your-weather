@@ -30,7 +30,7 @@ struct HistoryList: View {
                 List {
                     ForEach(modelData.feedbacks) { feedback in
                         NavigationLink {
-                            FeedbackDetail()
+                            FeedbackDetail(feedback: feedback)
                         } label: {
                             HistoryRow(feedback: feedback)
                         }

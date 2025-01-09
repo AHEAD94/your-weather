@@ -40,7 +40,7 @@ struct ServerHistoryList: View {
                 List {
                     ForEach(feedbackList) { feedback in
                         NavigationLink {
-                            FeedbackDetail()
+                            FeedbackDetail(feedback: feedback)
                         } label: {
                             HistoryRow(feedback: feedback)
                         }
