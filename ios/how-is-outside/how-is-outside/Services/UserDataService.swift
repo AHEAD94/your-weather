@@ -109,3 +109,31 @@ func fetchWeatherFeedback(completion: @escaping ([Feedback]) -> Void) {
         }
     }.resume()
 }
+
+func deleteWeatherFeedback(feedbackID: String, completion: @escaping (Bool) -> Void) {
+    guard let url = URL(string: "http://127.0.0.1:5000/weather/\(feedbackID)") else {
+        print("Invalid URL")
+        completion(false)
+        return
+    }
+    
+    var request = URLRequest(url: url)
+    request.httpMethod = "DELETE"
+    
+    URLSession.shared.dataTask(with: request) { _, response, error in
+        if let error = error {
+            print("Request error: \(error.localizedDescription)")
+            completion(false)
+            return
+        }
+        
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            print("Failed to delete feedback on server.")
+            completion(false)
+            return
+        }
+        
+        print("Feedback deleted successfully from server.")
+        completion(true)
+    }.resume()
+}

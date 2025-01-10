@@ -45,6 +45,7 @@ struct ServerHistoryList: View {
                             HistoryRow(feedback: feedback)
                         }
                     }
+                    .onDelete(perform: deleteFeedback)
                 }
                 .listStyle(.plain)
                 .animation(.default, value: feedbackList)
@@ -61,6 +62,22 @@ struct ServerHistoryList: View {
             DispatchQueue.main.async {
                 self.feedbackList = feedbackArray
                 self.isLoading = false
+            }
+        }
+    }
+    
+    private func deleteFeedback(at offsets: IndexSet) {
+        let feedbacksToDelete = offsets.map { feedbackList[$0] }
+        
+        for feedback in feedbacksToDelete {
+            deleteWeatherFeedback(feedbackID: feedback.id) { success in
+                if success {
+                    DispatchQueue.main.async {
+                        feedbackList.removeAll { $0.id == feedback.id }
+                    }
+                } else {
+                    print("Failed to delete feedback from server.")
+                }
             }
         }
     }
