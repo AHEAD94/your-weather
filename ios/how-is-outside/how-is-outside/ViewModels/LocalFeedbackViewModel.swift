@@ -1,5 +1,5 @@
 //
-//  FeedbackViewModel.swift
+//  LocalFeedbackViewModel.swift
 //  how-is-outside
 //
 //  Created by Ryu Dae-ha on 1/3/25.
@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-class FeedbackViewModel: ObservableObject {
+class LocalFeedbackViewModel: ObservableObject {
     @Published var feedbacks: [Feedback] = []
     
     private let storageManager = FeedbackStorageManager()

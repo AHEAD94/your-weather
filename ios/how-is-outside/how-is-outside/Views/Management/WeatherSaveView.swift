@@ -13,7 +13,8 @@ struct WeatherSaveView: View {
     @State private var isShowingSuccessMessage = false
     
     @EnvironmentObject var weatherViewModel: WeatherViewModel
-    @EnvironmentObject var feedbackViewModel: FeedbackViewModel
+    @EnvironmentObject var localFeedbackViewModel: LocalFeedbackViewModel
+    @StateObject private var serverFeedbackViewModel = ServerFeedbackViewModel()
     
     @Environment(\.dismiss) var dismiss  // 이전 화면으로 돌아가는 기능
     
@@ -48,7 +49,7 @@ struct WeatherSaveView: View {
                 let formattedDate = formatter.string(from: currentDate)
                 
                 // 날씨 데이터와 체감정보를 딕셔너리로 결합
-                let weatherData: [String: Any] = [
+                let feedbackData: [String: Any] = [
                     "date": formattedDate,
                     "city": weatherViewModel.cityName,
                     "time": weatherViewModel.currentTime,
@@ -65,8 +66,8 @@ struct WeatherSaveView: View {
                     "user_rating": rating
                 ]
                                 
-                // 서버에 데이터 삽입 요청
-                addWeatherFeedback(weatherData: weatherData)
+                // 서버에 피드백 데이터 추가 요청
+                serverFeedbackViewModel.postFeedback(feedbackData: feedbackData)
                 
                 // Feedback 객체로 변환하여 모델에 저장
                 let newFeedback = Feedback(
@@ -87,8 +88,8 @@ struct WeatherSaveView: View {
                     user_rating: rating
                 )
                 
-                // 모델에 피드백 추가
-                feedbackViewModel.addFeedback(feedback: newFeedback)
+                // 로컬에 피드백 데이터 추가
+                localFeedbackViewModel.addFeedback(feedback: newFeedback)
                 
                 // 알림창을 표시하고 서버 요청 후 알림창 호출
                 isShowingSuccessMessage = true  // 알림창 표시

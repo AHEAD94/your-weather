@@ -52,6 +52,6 @@ struct FeedbackDetail: View {
 }
 
 #Preview {
-    let feedbacks = FeedbackViewModel().feedbacks
+    let feedbacks = LocalFeedbackViewModel().feedbacks
     FeedbackDetail(feedback: feedbacks[0])
 }

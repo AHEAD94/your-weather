@@ -9,12 +9,12 @@ import SwiftUI
 
 @main
 struct how_is_outsideApp: App {
-    @StateObject private var feedbackViewModel = FeedbackViewModel()
+    @StateObject private var localFeedbackViewModel = LocalFeedbackViewModel()
     
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(feedbackViewModel)
+                .environmentObject(localFeedbackViewModel)
         }
     }
 }
