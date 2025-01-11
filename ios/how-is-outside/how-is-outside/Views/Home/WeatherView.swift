@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct WeatherView: View {
-    @StateObject private var viewModel = WeatherViewModel()
+    // HomePage의 viewModel을 전달받아 사용
+    @ObservedObject var viewModel = WeatherViewModel()
     
     var body: some View {
         VStack(spacing: 7) {
