@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HistoryList: View {
-    @StateObject private var modelData = FeedbackModelData.shared
+    @EnvironmentObject var feedbackViewModel: FeedbackViewModel
     
     var body: some View {
         NavigationStack {
@@ -28,7 +28,7 @@ struct HistoryList: View {
                 FeedbackDataIcons()
                 
                 List {
-                    ForEach(modelData.feedbacks) { feedback in
+                    ForEach(feedbackViewModel.feedbacks) { feedback in
                         NavigationLink {
                             FeedbackDetail(feedback: feedback)
                         } label: {
@@ -38,17 +38,18 @@ struct HistoryList: View {
                     .onDelete(perform: deleteFeedback)
                 }
                 .listStyle(.plain)
-                .animation(.default, value: modelData.feedbacks)
+                .animation(.default, value: feedbackViewModel.feedbacks)
             }
         }
     }
     
     private func deleteFeedback(at offsets: IndexSet) {
-        modelData.feedbacks.remove(atOffsets: offsets)
-        modelData.saveFeedbacks() // 로컬 데이터 업데이트
+        feedbackViewModel.feedbacks.remove(atOffsets: offsets)
+        feedbackViewModel.saveFeedbacks() // 로컬 데이터 업데이트
     }
 }
 
 #Preview {
     HistoryList()
+        .environmentObject(FeedbackViewModel())
 }

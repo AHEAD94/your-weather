@@ -12,8 +12,8 @@ struct WeatherSaveView: View {
     @State private var isShowingAlert = false
     @State private var isShowingSuccessMessage = false
     
-    @StateObject private var viewModel = WeatherViewModel()
-    @StateObject private var modelData = FeedbackModelData.shared
+    @EnvironmentObject var weatherViewModel: WeatherViewModel
+    @EnvironmentObject var feedbackViewModel: FeedbackViewModel
     
     @Environment(\.dismiss) var dismiss  // 이전 화면으로 돌아가는 기능
     
@@ -50,18 +50,18 @@ struct WeatherSaveView: View {
                 // 날씨 데이터와 체감정보를 딕셔너리로 결합
                 let weatherData: [String: Any] = [
                     "date": formattedDate,
-                    "city": viewModel.cityName,
-                    "time": viewModel.currentTime,
-                    "temperature": viewModel.currentTemp,
-                    "description": viewModel.weatherDescription,
-                    "min_temp": viewModel.dailyMinTemp,
-                    "max_temp": viewModel.dailyMaxTemp,
-                    "feels_like": viewModel.feelsLikeTemp,
-                    "wind": viewModel.windSpeed,
-                    "clouds": viewModel.cloudiness,
-                    "humidity": viewModel.humidity,
-                    "sunrise": viewModel.sunrise,
-                    "sunset": viewModel.sunset,
+                    "city": weatherViewModel.cityName,
+                    "time": weatherViewModel.currentTime,
+                    "temperature": weatherViewModel.currentTemp,
+                    "description": weatherViewModel.weatherDescription,
+                    "min_temp": weatherViewModel.dailyMinTemp,
+                    "max_temp": weatherViewModel.dailyMaxTemp,
+                    "feels_like": weatherViewModel.feelsLikeTemp,
+                    "wind": weatherViewModel.windSpeed,
+                    "clouds": weatherViewModel.cloudiness,
+                    "humidity": weatherViewModel.humidity,
+                    "sunrise": weatherViewModel.sunrise,
+                    "sunset": weatherViewModel.sunset,
                     "user_rating": rating
                 ]
                                 
@@ -72,24 +72,23 @@ struct WeatherSaveView: View {
                 let newFeedback = Feedback(
                     id: UUID().uuidString,
                     date: formattedDate,
-                    city: viewModel.cityName,
-                    time: viewModel.currentTime,
-                    temperature: viewModel.currentTemp,
-                    description: viewModel.weatherDescription,
-                    min_temp: viewModel.dailyMinTemp,
-                    max_temp: viewModel.dailyMaxTemp,
-                    feels_like: viewModel.feelsLikeTemp,
-                    wind: viewModel.windSpeed,
-                    clouds: viewModel.cloudiness,
-                    humidity: viewModel.humidity,
-                    sunrise: viewModel.sunrise,
-                    sunset: viewModel.sunset,
+                    city: weatherViewModel.cityName,
+                    time: weatherViewModel.currentTime,
+                    temperature: weatherViewModel.currentTemp,
+                    description: weatherViewModel.weatherDescription,
+                    min_temp: weatherViewModel.dailyMinTemp,
+                    max_temp: weatherViewModel.dailyMaxTemp,
+                    feels_like: weatherViewModel.feelsLikeTemp,
+                    wind: weatherViewModel.windSpeed,
+                    clouds: weatherViewModel.cloudiness,
+                    humidity: weatherViewModel.humidity,
+                    sunrise: weatherViewModel.sunrise,
+                    sunset: weatherViewModel.sunset,
                     user_rating: rating
                 )
                 
                 // 모델에 피드백 추가
-                modelData.feedbacks.append(newFeedback)
-                modelData.saveFeedbacks()
+                feedbackViewModel.addFeedback(feedback: newFeedback)
                 
                 // 알림창을 표시하고 서버 요청 후 알림창 호출
                 isShowingSuccessMessage = true  // 알림창 표시

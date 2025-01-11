@@ -5,6 +5,8 @@
 //  Created by Ryu Dae-ha on 12/28/24.
 //
 
+import Foundation
+
 struct WeatherResponse: Codable {
     let coord: Coordinates
     let weather: [WeatherDetails]
