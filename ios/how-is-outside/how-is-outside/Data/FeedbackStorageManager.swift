@@ -1,27 +1,20 @@
 //
-//  FeedbackModelData.swift
+//  FeedbackStorageManager.swift
 //  how-is-outside
 //
-//  Created by Ryu Dae-ha on 1/3/25.
+//  Created by Ryu Dae-ha on 1/11/25.
 //
 
 import Foundation
 
-class FeedbackModelData: ObservableObject {
-    static let shared = FeedbackModelData()
+class FeedbackStorageManager {
     private let fileName = "feedbackData.json"
-    
-    @Published var feedbacks: [Feedback] = []
-
-    init() {
-        loadFeedbacks()
-    }
     
     private func getDocumentDirectory() -> URL? {
         FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
     }
     
-    func saveFeedbacks() {
+    func saveFeedbacks(_ feedbacks: [Feedback]) {
         guard let url = getDocumentDirectory()?.appendingPathComponent(fileName) else {
             print("Error: Could not find document directory.")
             return
@@ -36,18 +29,18 @@ class FeedbackModelData: ObservableObject {
         }
     }
     
-    func loadFeedbacks() {
+    func loadFeedbacks() -> [Feedback] {
         guard let url = getDocumentDirectory()?.appendingPathComponent(fileName) else {
             print("Error: Could not find document directory.")
-            return
+            return []
         }
         
         do {
             let data = try Data(contentsOf: url)
-            feedbacks = try JSONDecoder().decode([Feedback].self, from: data)
-            print("Feedbacks loaded successfully.")
+            return try JSONDecoder().decode([Feedback].self, from: data)
         } catch {
             print("Error loading feedbacks: \(error)")
+            return []
         }
     }
 }

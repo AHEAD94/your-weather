@@ -12,8 +12,9 @@ struct WeatherSaveView: View {
     @State private var isShowingAlert = false
     @State private var isShowingSuccessMessage = false
     
-    @StateObject private var viewModel = WeatherViewModel()
-    @StateObject private var modelData = FeedbackModelData.shared
+    @EnvironmentObject var weatherViewModel: WeatherViewModel
+    @EnvironmentObject var localFeedbackViewModel: LocalFeedbackViewModel
+    @StateObject private var serverFeedbackViewModel = ServerFeedbackViewModel()
     
     @Environment(\.dismiss) var dismiss  // 이전 화면으로 돌아가는 기능
     
@@ -25,7 +26,7 @@ struct WeatherSaveView: View {
                     .padding(.top, 10)
                 
                 // 날씨 평가
-                FeelsLikeRating(selectedRating: $selectedRating)  // 부모의 상태를 바인딩하여 전달
+                FeedbackButtons(selectedRating: $selectedRating)  // 부모의 상태를 바인딩하여 전달
                 
                 Spacer()
                 
@@ -48,48 +49,47 @@ struct WeatherSaveView: View {
                 let formattedDate = formatter.string(from: currentDate)
                 
                 // 날씨 데이터와 체감정보를 딕셔너리로 결합
-                let weatherData: [String: Any] = [
+                let feedbackData: [String: Any] = [
                     "date": formattedDate,
-                    "city": viewModel.cityName,
-                    "time": viewModel.currentTime,
-                    "temperature": viewModel.currentTemp,
-                    "description": viewModel.weatherDescription,
-                    "min_temp": viewModel.dailyMinTemp,
-                    "max_temp": viewModel.dailyMaxTemp,
-                    "feels_like": viewModel.feelsLikeTemp,
-                    "wind": viewModel.windSpeed,
-                    "clouds": viewModel.cloudiness,
-                    "humidity": viewModel.humidity,
-                    "sunrise": viewModel.sunrise,
-                    "sunset": viewModel.sunset,
+                    "city": weatherViewModel.cityName,
+                    "time": weatherViewModel.currentTime,
+                    "temperature": weatherViewModel.currentTemp,
+                    "description": weatherViewModel.weatherDescription,
+                    "min_temp": weatherViewModel.dailyMinTemp,
+                    "max_temp": weatherViewModel.dailyMaxTemp,
+                    "feels_like": weatherViewModel.feelsLikeTemp,
+                    "wind": weatherViewModel.windSpeed,
+                    "clouds": weatherViewModel.cloudiness,
+                    "humidity": weatherViewModel.humidity,
+                    "sunrise": weatherViewModel.sunrise,
+                    "sunset": weatherViewModel.sunset,
                     "user_rating": rating
                 ]
                                 
-                // 서버에 데이터 삽입 요청
-                addWeatherFeedback(weatherData: weatherData)
+                // 서버에 피드백 데이터 추가 요청
+                serverFeedbackViewModel.postFeedback(feedbackData: feedbackData)
                 
                 // Feedback 객체로 변환하여 모델에 저장
                 let newFeedback = Feedback(
                     id: UUID().uuidString,
                     date: formattedDate,
-                    city: viewModel.cityName,
-                    time: viewModel.currentTime,
-                    temperature: viewModel.currentTemp,
-                    description: viewModel.weatherDescription,
-                    min_temp: viewModel.dailyMinTemp,
-                    max_temp: viewModel.dailyMaxTemp,
-                    feels_like: viewModel.feelsLikeTemp,
-                    wind: viewModel.windSpeed,
-                    clouds: viewModel.cloudiness,
-                    humidity: viewModel.humidity,
-                    sunrise: viewModel.sunrise,
-                    sunset: viewModel.sunset,
+                    city: weatherViewModel.cityName,
+                    time: weatherViewModel.currentTime,
+                    temperature: weatherViewModel.currentTemp,
+                    description: weatherViewModel.weatherDescription,
+                    min_temp: weatherViewModel.dailyMinTemp,
+                    max_temp: weatherViewModel.dailyMaxTemp,
+                    feels_like: weatherViewModel.feelsLikeTemp,
+                    wind: weatherViewModel.windSpeed,
+                    clouds: weatherViewModel.cloudiness,
+                    humidity: weatherViewModel.humidity,
+                    sunrise: weatherViewModel.sunrise,
+                    sunset: weatherViewModel.sunset,
                     user_rating: rating
                 )
                 
-                // 모델에 피드백 추가
-                modelData.feedbacks.append(newFeedback)
-                modelData.saveFeedbacks()
+                // 로컬에 피드백 데이터 추가
+                localFeedbackViewModel.addFeedback(feedback: newFeedback)
                 
                 // 알림창을 표시하고 서버 요청 후 알림창 호출
                 isShowingSuccessMessage = true  // 알림창 표시

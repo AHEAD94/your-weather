@@ -1,5 +1,5 @@
 //
-//  FeelsLikeRating.swift
+//  FeedbackButtons.swift
 //  how-is-outside
 //
 //  Created by Ryu Dae-ha on 12/30/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct FeelsLikeRating: View {
+struct FeedbackButtons: View {
     @Binding var selectedRating: String?
 
     // 체감온도 텍스트 배열
@@ -59,5 +59,5 @@ struct FeelsLikeRating: View {
 }
 
 #Preview {
-    FeelsLikeRating(selectedRating: .constant(nil))
+    FeedbackButtons(selectedRating: .constant(nil))
 }

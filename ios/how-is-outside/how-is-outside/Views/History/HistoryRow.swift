@@ -50,7 +50,7 @@ struct HistoryRow: View {
 }
 
 #Preview {
-    let feedbacks = FeedbackModelData().feedbacks
+    let feedbacks = LocalFeedbackViewModel().feedbacks
     return Group {
         HistoryRow(feedback: feedbacks[0])
         HistoryRow(feedback: feedbacks[1])
