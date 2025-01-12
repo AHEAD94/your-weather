@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HomePage: View {
-    @StateObject private var viewModel = WeatherViewModel()
+    @StateObject private var weatherViewModel = WeatherViewModel()
     
     var body: some View {
         NavigationStack {
@@ -46,10 +46,11 @@ struct HomePage: View {
                 .padding(.horizontal)
                 .padding(.bottom)
                 .onAppear {
-                    viewModel.fetchWeather(city: "Seoul")
+                    weatherViewModel.fetchWeather(city: "Seoul")
                 }
             }
         }
+        .environmentObject(weatherViewModel)
     }
 }
 
