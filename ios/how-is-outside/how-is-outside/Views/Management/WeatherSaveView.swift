@@ -26,7 +26,7 @@ struct WeatherSaveView: View {
                     .padding(.top, 10)
                 
                 // 날씨 평가
-                FeelsLikeRating(selectedRating: $selectedRating)  // 부모의 상태를 바인딩하여 전달
+                FeedbackButtons(selectedRating: $selectedRating)  // 부모의 상태를 바인딩하여 전달
                 
                 Spacer()
                 
