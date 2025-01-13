@@ -25,11 +25,10 @@ struct HomePage: View {
                     }
                     
                     // 현재 날씨
-                    WeatherView()
-                        .overlay(
-                            PlusButton()
-                                .offset(x: 155, y: -145)
-                        )
+                    ZStack(alignment: .topTrailing) {
+                        WeatherView()
+                        PlusButton()
+                    }
                     
                     // 상태바
                     StatusBarView()
