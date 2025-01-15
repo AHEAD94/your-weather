@@ -8,7 +8,7 @@ An iOS app that checks the current weather outside and compares it with past wea
 
 ### iOS Frontend
 - **Language**: Swift
-- **Framework**: iOS SwiftUI
+- **Framework**: SwiftUI
 
 ### Backend Server
 - **Language**: Python
