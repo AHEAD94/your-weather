@@ -6,11 +6,11 @@ An iOS app that checks the current weather outside and compares it with past wea
 
 ## Tech Stack
 
-### Frontend
+### iOS Frontend
 - **Language**: Swift
 - **Framework**: iOS SwiftUI
 
-### Backend
+### Backend Server
 - **Language**: Python
 - **Framework**: Flask
 
