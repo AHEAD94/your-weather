@@ -30,7 +30,7 @@ struct FeedbackButtons: View {
     
     var body: some View {
         VStack {
-            Text("오늘 당신의 날씨 체감은 어떤가요?")
+            Text("오늘 날씨 체감은 어떤가요?")
                 .font(.headline)
                 .padding()
 
@@ -44,12 +44,16 @@ struct FeedbackButtons: View {
                         Text(splitText(rating))
                             .font(.caption)
                             .frame(width: 45, height: 60)
-                            .background(selectedRating == rating ? Color.blue : Color.gray.opacity(0.3))
-                            .foregroundColor(selectedRating == rating ? .white : .black)
+                            .background(
+                                selectedRating == rating ? Color.blue : Color(UIColor.systemGray5)
+                            )
+                            .foregroundColor(
+                                selectedRating == rating ? Color.white : Color(UIColor.label)
+                            )
                             .clipShape(Capsule())
                             .overlay(
                                 Capsule()
-                                    .stroke(selectedRating == rating ? Color.blue : Color.gray, lineWidth: 2)
+                                    .stroke(selectedRating == rating ? Color.blue : Color(UIColor.systemGray2), lineWidth: 2)
                             )
                     }
                 }
