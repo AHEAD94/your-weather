@@ -9,29 +9,29 @@ import SwiftUI
 
 struct WeatherView: View {
     // HomePage의 viewModel을 전달받아 사용
-    @ObservedObject var viewModel = WeatherViewModel()
+    @ObservedObject var weatherViewModel = WeatherViewModel()
     
     var body: some View {
         VStack(spacing: 7) {
-            Text("\(viewModel.cityName)")
+            Text("\(weatherViewModel.cityName)")
                 .font(.largeTitle)
-            Text("\(viewModel.currentTime)")
+            Text("\(weatherViewModel.formattedTime)")
                 .font(.subheadline)
-            Text("\(viewModel.currentTemp)")
+            Text("\(weatherViewModel.formattedTemperature)")
                 .font(.largeTitle)
-            Text("\(viewModel.weatherDescription)")
+            Text("\(weatherViewModel.weatherDescription)")
                 .font(.title)
             HStack {
-                Text("최저: \(viewModel.dailyMinTemp)")
-                Text("최고: \(viewModel.dailyMaxTemp)")
+                Text("최저: \(weatherViewModel.formattedDailyMinTemp)")
+                Text("최고: \(weatherViewModel.formattedDailyMaxTemp)")
             }
-            Text("체감 온도: \(viewModel.feelsLikeTemp)")
-            Text("바람: \(viewModel.windSpeed)")
-            Text("구름: \(viewModel.cloudiness)")
-            Text("습도: \(viewModel.humidity)")
+            Text("체감 온도: \(weatherViewModel.formattedFeelsLike)")
+            Text("바람: \(weatherViewModel.formattedWindSpeed)")
+            Text("구름: \(weatherViewModel.formattedCloudiness)")
+            Text("습도: \(weatherViewModel.formattedHumidity)")
             HStack {
-                Text("일출: \(viewModel.sunrise)")
-                Text("일몰: \(viewModel.sunset)")
+                Text("일출: \(weatherViewModel.formattedSunrise)")
+                Text("일몰: \(weatherViewModel.formattedSunset)")
             }
         }
         .frame(maxWidth: .infinity)

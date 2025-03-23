@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HomePage: View {
-    @StateObject private var weatherViewModel = WeatherViewModel()
+    @EnvironmentObject var weatherViewModel: WeatherViewModel
     
     var body: some View {
         NavigationStack {

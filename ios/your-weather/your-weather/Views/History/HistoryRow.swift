@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HistoryRow: View {
     var feedback: Feedback
-    
+     
     var body: some View {
         HStack {
             VStack {
@@ -31,17 +31,17 @@ struct HistoryRow: View {
                 .lineLimit(1)
                 .minimumScaleFactor(0.1)
             Spacer()
-            Text(feedback.temperature)
+            Text("\(feedback.temperature)°C")
                 .frame(maxWidth: .infinity)
                 .lineLimit(1)
                 .minimumScaleFactor(0.1)
             Spacer()
-            Text(feedback.humidity)
+            Text("\(feedback.humidity)%")
                 .frame(maxWidth: .infinity)
                 .lineLimit(1)
                 .minimumScaleFactor(0.1)
             Spacer()
-            Text(feedback.wind)
+            Text("\(feedback.wind)m/s")
                 .frame(maxWidth: .infinity)
                 .lineLimit(1)
                 .minimumScaleFactor(0.1)
@@ -53,6 +53,6 @@ struct HistoryRow: View {
     let feedbacks = LocalFeedbackViewModel().feedbacks
     return Group {
         HistoryRow(feedback: feedbacks[0])
-        HistoryRow(feedback: feedbacks[1])
+//        HistoryRow(feedback: feedbacks[1])
     }
 }

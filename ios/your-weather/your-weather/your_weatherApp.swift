@@ -10,11 +10,13 @@ import SwiftUI
 @main
 struct your_weatherApp: App {
     @StateObject private var localFeedbackViewModel = LocalFeedbackViewModel()
+    @StateObject private var weatherViewModel = WeatherViewModel()
     
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(localFeedbackViewModel)
+                .environmentObject(weatherViewModel)
         }
     }
 }
