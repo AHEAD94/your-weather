@@ -24,6 +24,7 @@ struct WeatherSaveView: View {
                 // 현재 날씨
                 WeatherView()
                     .padding(.top, 10)
+                WeatherDetailView()
                 
                 // 날씨 평가
                 FeedbackButtons(selectedRating: $selectedRating)  // 부모의 상태를 바인딩하여 전달
