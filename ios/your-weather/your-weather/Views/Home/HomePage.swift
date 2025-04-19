@@ -30,15 +30,6 @@ struct HomePage: View {
                         PlusButton()
                     }
                     
-                    // 상태바
-                    StatusBarView()
-                    
-                    // 비슷한 과거 의복 & 내 옷장
-                    HStack {
-                        PastWeatherView()
-                        MyClosetView()
-                    }
-                    
                     FooterMessage()
                 }
                 .frame(maxWidth: .infinity)
