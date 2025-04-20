@@ -31,43 +31,43 @@ class WeatherViewModel: ObservableObject {
 
     // 포맷된 값들 (뷰에서 사용할 데이터)
     var formattedTime: String {
-        return time.formattedAsTime()
+        TimeFormatter.formatTime(time)
     }
 
     var formattedSunrise: String {
-        return sunrise.formattedAsTime()
+        TimeFormatter.formatTime(sunrise)
     }
 
     var formattedSunset: String {
-        return sunset.formattedAsTime()
+        TimeFormatter.formatTime(sunset)
     }
 
     var formattedTemperature: String {
-        return temperature.formattedAsTemperature()
+        WeatherFormatter.formatTemperature(temperature)
     }
 
     var formattedFeelsLike: String {
-        return feelsLike.formattedAsTemperature()
+        WeatherFormatter.formatTemperature(feelsLike)
     }
 
     var formattedWindSpeed: String {
-        return windSpeed.formattedAsWindSpeed()
+        WeatherFormatter.formatWindSpeed(windSpeed)
     }
 
     var formattedDailyMinTemp: String {
-        return dailyMinTemp.formattedAsTemperature()
+        WeatherFormatter.formatTemperature(dailyMinTemp)
     }
 
     var formattedDailyMaxTemp: String {
-        return dailyMaxTemp.formattedAsTemperature()
+        WeatherFormatter.formatTemperature(dailyMaxTemp)
     }
 
     var formattedHumidity: String {
-        return humidity.formattedAsPercentage()
+        WeatherFormatter.formatPercentage(humidity)
     }
 
     var formattedCloudiness: String {
-        return cloudiness.formattedAsPercentage()
+        WeatherFormatter.formatPercentage(cloudiness)
     }
 
     // 날씨 데이터 불러오기
@@ -121,42 +121,5 @@ class WeatherViewModel: ObservableObject {
                 }
             }
         }
-    }
-}
-
-extension Date {
-    // 시간을 포맷팅하는 함수
-    func formattedAsTime() -> String {
-        let formatter = DateFormatter()
-        formatter.timeStyle = .short
-        formatter.locale = Locale(identifier: "ko_KR")
-        return formatter.string(from: self)
-    }
-}
-
-extension Double {
-    // 온도 형식화 함수
-    func formattedAsTemperature() -> String {
-        let formatter = NumberFormatter()
-        formatter.minimumFractionDigits = 1
-        formatter.maximumFractionDigits = 1
-        formatter.numberStyle = .decimal
-        return "\(formatter.string(from: NSNumber(value: self)) ?? "\(self)")°C"
-    }
-
-    // 풍속 형식화 함수
-    func formattedAsWindSpeed() -> String {
-        let formatter = NumberFormatter()
-        formatter.minimumFractionDigits = 1
-        formatter.maximumFractionDigits = 1
-        formatter.numberStyle = .decimal
-        return "\(formatter.string(from: NSNumber(value: self)) ?? "\(self)") m/s"
-    }
-}
-
-extension Int {
-    // 백분율 형식화 함수
-    func formattedAsPercentage() -> String {
-        return "\(self)%"
     }
 }
