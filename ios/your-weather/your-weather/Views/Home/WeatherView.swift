@@ -9,33 +9,25 @@ import SwiftUI
 
 struct WeatherView: View {
     // HomePage의 viewModel을 전달받아 사용
-    @ObservedObject var weatherViewModel = WeatherViewModel()
+    @ObservedObject var viewModel = WeatherViewModel()
     
     var body: some View {
         VStack(spacing: 7) {
-            Text("\(weatherViewModel.cityName)")
-                .font(.largeTitle)
-            Text("\(weatherViewModel.formattedTime)")
+            Text("\(viewModel.currentTime)")
                 .font(.subheadline)
-            Text("\(weatherViewModel.formattedTemperature)")
+            Text("\(viewModel.cityName)")
                 .font(.largeTitle)
-            Text("\(weatherViewModel.weatherDescription)")
+            Text("\(viewModel.weatherDescription)")
                 .font(.title)
+            Text("\(viewModel.currentTemp)")
+                .font(.largeTitle)
             HStack {
-                Text("최저: \(weatherViewModel.formattedDailyMinTemp)")
-                Text("최고: \(weatherViewModel.formattedDailyMaxTemp)")
+                Text("최저: \(viewModel.dailyMinTemp)")
+                Text("최고: \(viewModel.dailyMaxTemp)")
             }
-            Text("체감 온도: \(weatherViewModel.formattedFeelsLike)")
-            Text("바람: \(weatherViewModel.formattedWindSpeed)")
-            Text("구름: \(weatherViewModel.formattedCloudiness)")
-            Text("습도: \(weatherViewModel.formattedHumidity)")
-            HStack {
-                Text("일출: \(weatherViewModel.formattedSunrise)")
-                Text("일몰: \(weatherViewModel.formattedSunset)")
-            }
+            Text("체감 온도: \(viewModel.feelsLikeTemp)")
         }
         .frame(maxWidth: .infinity)
-        .frame(height: 320)
         .padding()
         .background(Color.blue.opacity(0.7))
         .cornerRadius(12)

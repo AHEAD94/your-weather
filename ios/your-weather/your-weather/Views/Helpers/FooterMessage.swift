@@ -11,7 +11,7 @@ struct FooterMessage: View {
     var body: some View {
         VStack {
             Text("개인형 날씨 체감 Insight")
-            Text("너의 날씨, Your Weather")
+            Text("Your Weather")
         }
         .font(.system(.footnote, weight: .regular))
         .foregroundStyle(.secondary)
