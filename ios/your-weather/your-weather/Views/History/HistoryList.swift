@@ -30,9 +30,9 @@ struct HistoryList: View {
                 List {
                     ForEach(localFeedbackViewModel.feedbacks) { feedback in
                         NavigationLink {
-                            FeedbackDetail(feedback: feedback)
+                            FeedbackDetail(feedbackDetailViewModel: FeedbackDetailViewModel(feedback: feedback))
                         } label: {
-                            HistoryRow(feedback: feedback)
+                            HistoryRow(feedbackDetailViewModel: FeedbackDetailViewModel(feedback: feedback))
                         }
                     }
                     .onDelete(perform: deleteFeedback)

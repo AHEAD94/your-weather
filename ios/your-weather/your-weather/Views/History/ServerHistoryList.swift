@@ -39,9 +39,9 @@ struct ServerHistoryList: View {
                 List {
                     ForEach(serverFeedbackViewModel.feedbacks) { feedback in
                         NavigationLink {
-                            FeedbackDetail(feedback: feedback)
+                            FeedbackDetail(feedbackDetailViewModel: FeedbackDetailViewModel(feedback: feedback))
                         } label: {
-                            HistoryRow(feedback: feedback)
+                            HistoryRow(feedbackDetailViewModel: FeedbackDetailViewModel(feedback: feedback))
                         }
                     }
                     .onDelete(perform: serverFeedbackViewModel.deleteFeedback)
