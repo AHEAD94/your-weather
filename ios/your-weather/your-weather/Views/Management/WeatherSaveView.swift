@@ -115,4 +115,5 @@ struct WeatherSaveView: View {
 
 #Preview {
     WeatherSaveView()
+        .environmentObject(WeatherViewModel())
 }
