@@ -9,7 +9,7 @@ import SwiftUI
 
 struct WeatherDetailView: View {
     // HomePage의 viewModel을 전달받아 사용
-    @ObservedObject var viewModel = WeatherViewModel()
+    @EnvironmentObject var viewModel: WeatherViewModel
     
     var body: some View {
         VStack(spacing: 7) {
@@ -30,4 +30,5 @@ struct WeatherDetailView: View {
 
 #Preview {
     WeatherDetailView()
+        .environmentObject(WeatherViewModel())
 }
