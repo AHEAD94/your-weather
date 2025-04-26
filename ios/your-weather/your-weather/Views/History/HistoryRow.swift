@@ -8,40 +8,50 @@
 import SwiftUI
 
 struct HistoryRow: View {
-    var feedback: Feedback
-    
+    @ObservedObject var feedbackDetailViewModel: FeedbackDetailViewModel
+
     var body: some View {
         HStack {
             VStack {
-                Text(feedback.date)
-                Text(feedback.time)
+                Text(feedbackDetailViewModel.date)
+                Text(feedbackDetailViewModel.time)
             }
             .frame(maxWidth: .infinity)
             .lineLimit(1)
             .minimumScaleFactor(0.1)
+
             Spacer()
-            Text(feedback.user_rating)
+
+            Text(feedbackDetailViewModel.userRating)
                 .frame(maxWidth: .infinity)
                 .lineLimit(1)
                 .minimumScaleFactor(0.1)
                 .padding(.vertical, 8)
+
             Spacer()
-            Text(feedback.description)
+
+            Text(feedbackDetailViewModel.description)
                 .frame(maxWidth: .infinity)
                 .lineLimit(1)
                 .minimumScaleFactor(0.1)
+
             Spacer()
-            Text(feedback.temperature)
+
+            Text(feedbackDetailViewModel.temperature)
                 .frame(maxWidth: .infinity)
                 .lineLimit(1)
                 .minimumScaleFactor(0.1)
+
             Spacer()
-            Text(feedback.humidity)
+
+            Text(feedbackDetailViewModel.humidity)
                 .frame(maxWidth: .infinity)
                 .lineLimit(1)
                 .minimumScaleFactor(0.1)
+
             Spacer()
-            Text(feedback.wind)
+
+            Text(feedbackDetailViewModel.wind)
                 .frame(maxWidth: .infinity)
                 .lineLimit(1)
                 .minimumScaleFactor(0.1)
@@ -50,9 +60,7 @@ struct HistoryRow: View {
 }
 
 #Preview {
-    let feedbacks = LocalFeedbackViewModel().feedbacks
-    return Group {
-        HistoryRow(feedback: feedbacks[0])
-        HistoryRow(feedback: feedbacks[1])
-    }
+    let feedback = LocalFeedbackViewModel().feedbacks[0]
+    let feedbackDetailViewModel = FeedbackDetailViewModel(feedback: feedback)
+    return HistoryRow(feedbackDetailViewModel: feedbackDetailViewModel)
 }

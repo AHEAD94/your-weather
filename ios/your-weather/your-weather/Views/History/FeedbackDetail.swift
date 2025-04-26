@@ -8,41 +8,41 @@
 import SwiftUI
 
 struct FeedbackDetail: View {
-    let feedback: Feedback
-    
+    @ObservedObject var feedbackDetailViewModel: FeedbackDetailViewModel
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 Group {
-                    Text("날짜: \(feedback.date)")
+                    Text("날짜: \(feedbackDetailViewModel.date)")
                     Divider()
-                    Text("도시: \(feedback.city)")
-                    Text("시간: \(feedback.time)")
+                    Text("도시: \(feedbackDetailViewModel.city)")
+                    Text("시간: \(feedbackDetailViewModel.time)")
                 }
-                
+
                 Group {
                     Divider()
-                    Text("온도: \(feedback.temperature)")
-                    Text("설명: \(feedback.description)")
+                    Text("온도: \(feedbackDetailViewModel.temperature)")
+                    Text("설명: \(feedbackDetailViewModel.description)")
                     Divider()
-                    Text("최저 온도: \(feedback.min_temp)")
-                    Text("최고 온도: \(feedback.max_temp)")
-                    Text("체감 온도: \(feedback.feels_like)")
+                    Text("최저 온도: \(feedbackDetailViewModel.minTemp)")
+                    Text("최고 온도: \(feedbackDetailViewModel.maxTemp)")
+                    Text("체감 온도: \(feedbackDetailViewModel.feelsLike)")
                 }
-                
+
                 Group {
                     Divider()
-                    Text("바람: \(feedback.wind)")
-                    Text("구름: \(feedback.clouds)")
-                    Text("습도: \(feedback.humidity)")
+                    Text("바람: \(feedbackDetailViewModel.wind)")
+                    Text("구름: \(feedbackDetailViewModel.clouds)")
+                    Text("습도: \(feedbackDetailViewModel.humidity)")
                     Divider()
-                    Text("일출: \(feedback.sunrise)")
-                    Text("일몰: \(feedback.sunset)")
+                    Text("일출: \(feedbackDetailViewModel.sunrise)")
+                    Text("일몰: \(feedbackDetailViewModel.sunset)")
                 }
-                
+
                 Group {
                     Divider()
-                    Text("사용자 날씨 체감: \(feedback.user_rating)")
+                    Text("사용자 날씨 체감: \(feedbackDetailViewModel.userRating)")
                 }
             }
             .padding()
@@ -52,6 +52,7 @@ struct FeedbackDetail: View {
 }
 
 #Preview {
-    let feedbacks = LocalFeedbackViewModel().feedbacks
-    FeedbackDetail(feedback: feedbacks[0])
+    let feedback = LocalFeedbackViewModel().feedbacks[0]
+    let feedbackDetailViewModel = FeedbackDetailViewModel(feedback: feedback)
+    return FeedbackDetail(feedbackDetailViewModel: feedbackDetailViewModel)
 }
