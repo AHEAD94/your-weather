@@ -12,7 +12,7 @@ class LocalFeedbackViewModel: ObservableObject {
     @Published var feedbacks: [Feedback] = []
     @Published var nextId: Int = 1
     
-    private let storageManager = FeedbackStorageManager()
+    private let storageManager = FeedbackStorageManager.shared
     
     init() {
         loadFeedbacks()
