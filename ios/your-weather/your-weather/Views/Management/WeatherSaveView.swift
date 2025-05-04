@@ -47,10 +47,12 @@ struct WeatherSaveView: View {
                 formatter.locale = Locale(identifier: "ko_KR")
                 formatter.timeZone = TimeZone.current
 
+                let uuidString = UUID().uuidString
                 let formattedDate = formatter.string(from: currentDate)
                 
                 // 날씨 데이터와 체감정보를 딕셔너리로 결합
                 let feedbackData: [String: Any] = [
+                    "id": uuidString,
                     "date": formattedDate,
                     "city": weatherViewModel.cityName,
                     "time": weatherViewModel.formattedTime,
@@ -72,7 +74,7 @@ struct WeatherSaveView: View {
                 
                 // Feedback 객체로 변환하여 모델에 저장
                 let newFeedback = Feedback(
-                    id: localFeedbackViewModel.nextId,
+                    id: uuidString,
                     date: formattedDate,
                     city: weatherViewModel.cityName,
                     time: weatherViewModel.formattedTime,
