@@ -13,12 +13,11 @@ class ServerFeedbackViewModel: ObservableObject {
     
     private let feedbackService = FeedbackService()
     
-    init() {
-        fetchFeedback()
-    }
-
     func fetchFeedback() {
-        isLoading = true
+        DispatchQueue.main.async { [weak self] in
+            self?.isLoading = true
+        }
+        
         feedbackService.fetchWeatherFeedback { [weak self] feedbackArray in
             DispatchQueue.main.async {
                 self?.feedbacks = feedbackArray

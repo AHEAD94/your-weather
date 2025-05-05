@@ -12,14 +12,14 @@ struct Feedback: Codable, Identifiable, Equatable {
     var date: String
     var city: String
     var time: String
-    var temperature: String
+    var temperature: Double
     var description: String
-    var min_temp: String
-    var max_temp: String
-    var feels_like: String
-    var wind: String
-    var clouds: String
-    var humidity: String
+    var min_temp: Double
+    var max_temp: Double
+    var feels_like: Double
+    var wind: Double
+    var clouds: Int
+    var humidity: Int
     var sunrise: String
     var sunset: String
     var user_rating: String

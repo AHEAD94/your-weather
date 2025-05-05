@@ -8,38 +8,44 @@
 import Foundation
 
 class FeedbackStorageManager {
+    static let shared = FeedbackStorageManager()
     private let fileName = "feedbackData.json"
+    private var fileURL: URL? {
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+            .first?
+            .appendingPathComponent(fileName)
+    }
     
-    private func getDocumentDirectory() -> URL? {
-        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+    private init() {
+        createEmptyJSONIfNeeded()
+    }
+
+    private func createEmptyJSONIfNeeded() {
+        guard let fileURL = fileURL else { return }
+        let fileManager = FileManager.default
+        if !fileManager.fileExists(atPath: fileURL.path) {
+            let emptyArrayData = "[]".data(using: .utf8)
+            fileManager.createFile(atPath: fileURL.path, contents: emptyArrayData, attributes: nil)
+        }
     }
     
     func saveFeedbacks(_ feedbacks: [Feedback]) {
-        guard let url = getDocumentDirectory()?.appendingPathComponent(fileName) else {
-            print("Error: Could not find document directory.")
-            return
-        }
-        
+        guard let fileURL = fileURL else { return }
         do {
             let data = try JSONEncoder().encode(feedbacks)
-            try data.write(to: url)
-            print("Feedbacks saved successfully.")
+            try data.write(to: fileURL)
         } catch {
-            print("Error saving feedbacks: \(error)")
+            print("Failed to save feedbacks into JSON file: \(error)")
         }
     }
     
     func loadFeedbacks() -> [Feedback] {
-        guard let url = getDocumentDirectory()?.appendingPathComponent(fileName) else {
-            print("Error: Could not find document directory.")
-            return []
-        }
-        
+        guard let fileURL = fileURL else { return [] }
         do {
-            let data = try Data(contentsOf: url)
+            let data = try Data(contentsOf: fileURL)
             return try JSONDecoder().decode([Feedback].self, from: data)
         } catch {
-            print("Error loading feedbacks: \(error)")
+            print("Failed to load feedbacks from JSON file: \(error)")
             return []
         }
     }

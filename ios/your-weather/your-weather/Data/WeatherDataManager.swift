@@ -10,30 +10,44 @@ import Foundation
 class WeatherDataManager {
     static let shared = WeatherDataManager()
     private let fileName = "weatherData.json"
+    private var fileURL: URL? {
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(fileName)
+    }
     
-    private init() {}
-
+    private init() {
+        createEmptyJSONIfNeeded()
+    }
+    
+    private func createEmptyJSONIfNeeded() {
+        let fileManager = FileManager.default
+        guard let fileURL = fileURL else { return }
+        if !fileManager.fileExists(atPath: fileURL.path) {
+            let emptyData = "{}".data(using: .utf8)
+            fileManager.createFile(atPath: fileURL.path, contents: emptyData, attributes: nil)
+        }
+    }
+    
     func saveWeatherData(_ data: WeatherResponse) {
+        guard let fileURL = fileURL else { return }
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
-        if let jsonData = try? encoder.encode(data) {
-            let fileManager = FileManager.default
-            if let documentDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
-                let fileURL = documentDirectory.appendingPathComponent(fileName)
-                try? jsonData.write(to: fileURL)
-            }
+        do {
+            let jsonData = try encoder.encode(data)
+            try jsonData.write(to: fileURL)
+        } catch {
+            print("Failed to save weather data to JSON file: \(error)")
         }
     }
     
     func loadWeatherData() -> WeatherResponse? {
-        let fileManager = FileManager.default
-        if let documentDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
-            let fileURL = documentDirectory.appendingPathComponent(fileName)
-            if let data = try? Data(contentsOf: fileURL) {
-                let decoder = JSONDecoder()
-                return try? decoder.decode(WeatherResponse.self, from: data)
-            }
+        guard let fileURL = fileURL else { return nil }
+        do {
+            let data = try Data(contentsOf: fileURL)
+            let decoder = JSONDecoder()
+            return try decoder.decode(WeatherResponse.self, from: data)
+        } catch {
+            print("Failed to load weather data from JSON file: \(error)")
+            return nil
         }
-        return nil
     }
 }

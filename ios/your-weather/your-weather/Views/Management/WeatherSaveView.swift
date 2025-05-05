@@ -47,23 +47,25 @@ struct WeatherSaveView: View {
                 formatter.locale = Locale(identifier: "ko_KR")
                 formatter.timeZone = TimeZone.current
 
+                let uuidString = UUID().uuidString
                 let formattedDate = formatter.string(from: currentDate)
                 
                 // 날씨 데이터와 체감정보를 딕셔너리로 결합
                 let feedbackData: [String: Any] = [
+                    "id": uuidString,
                     "date": formattedDate,
                     "city": weatherViewModel.cityName,
-                    "time": weatherViewModel.currentTime,
-                    "temperature": weatherViewModel.currentTemp,
+                    "time": weatherViewModel.formattedTime,
+                    "temperature": weatherViewModel.temperature,
                     "description": weatherViewModel.weatherDescription,
                     "min_temp": weatherViewModel.dailyMinTemp,
                     "max_temp": weatherViewModel.dailyMaxTemp,
-                    "feels_like": weatherViewModel.feelsLikeTemp,
+                    "feels_like": weatherViewModel.feelsLike,
                     "wind": weatherViewModel.windSpeed,
                     "clouds": weatherViewModel.cloudiness,
                     "humidity": weatherViewModel.humidity,
-                    "sunrise": weatherViewModel.sunrise,
-                    "sunset": weatherViewModel.sunset,
+                    "sunrise": weatherViewModel.formattedSunrise,
+                    "sunset": weatherViewModel.formattedSunset,
                     "user_rating": rating
                 ]
                                 
@@ -72,20 +74,20 @@ struct WeatherSaveView: View {
                 
                 // Feedback 객체로 변환하여 모델에 저장
                 let newFeedback = Feedback(
-                    id: UUID().uuidString,
+                    id: uuidString,
                     date: formattedDate,
                     city: weatherViewModel.cityName,
-                    time: weatherViewModel.currentTime,
-                    temperature: weatherViewModel.currentTemp,
+                    time: weatherViewModel.formattedTime,
+                    temperature: weatherViewModel.temperature,
                     description: weatherViewModel.weatherDescription,
                     min_temp: weatherViewModel.dailyMinTemp,
                     max_temp: weatherViewModel.dailyMaxTemp,
-                    feels_like: weatherViewModel.feelsLikeTemp,
+                    feels_like: weatherViewModel.feelsLike,
                     wind: weatherViewModel.windSpeed,
                     clouds: weatherViewModel.cloudiness,
                     humidity: weatherViewModel.humidity,
-                    sunrise: weatherViewModel.sunrise,
-                    sunset: weatherViewModel.sunset,
+                    sunrise: weatherViewModel.formattedSunrise,
+                    sunset: weatherViewModel.formattedSunset,
                     user_rating: rating
                 )
                 
@@ -115,4 +117,5 @@ struct WeatherSaveView: View {
 
 #Preview {
     WeatherSaveView()
+        .environmentObject(WeatherViewModel())
 }

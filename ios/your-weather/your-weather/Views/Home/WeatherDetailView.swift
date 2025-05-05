@@ -9,16 +9,16 @@ import SwiftUI
 
 struct WeatherDetailView: View {
     // HomePage의 viewModel을 전달받아 사용
-    @ObservedObject var viewModel = WeatherViewModel()
+    @EnvironmentObject var weatherViewModel : WeatherViewModel
     
     var body: some View {
         VStack(spacing: 7) {
-            Text("바람: \(viewModel.windSpeed)")
-            Text("습도: \(viewModel.humidity)")
-            Text("구름: \(viewModel.cloudiness)")
+            Text("바람: \(weatherViewModel.formattedWindSpeed)")
+            Text("습도: \(weatherViewModel.formattedHumidity)")
+            Text("구름: \(weatherViewModel.formattedCloudiness)")
             HStack {
-                Text("일출: \(viewModel.sunrise)")
-                Text("일몰: \(viewModel.sunset)")
+                Text("일출: \(weatherViewModel.formattedSunrise)")
+                Text("일몰: \(weatherViewModel.formattedSunset)")
             }
         }
         .frame(maxWidth: .infinity)
@@ -30,4 +30,5 @@ struct WeatherDetailView: View {
 
 #Preview {
     WeatherDetailView()
+        .environmentObject(WeatherViewModel())
 }

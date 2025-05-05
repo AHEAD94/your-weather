@@ -11,7 +11,7 @@ import Combine
 class LocalFeedbackViewModel: ObservableObject {
     @Published var feedbacks: [Feedback] = []
     
-    private let storageManager = FeedbackStorageManager()
+    private let storageManager = FeedbackStorageManager.shared
     
     init() {
         loadFeedbacks()

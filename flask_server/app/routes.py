@@ -19,7 +19,7 @@ def add_weather():
     return jsonify({"message": "Weather added!"}), 201
 
 
-@bp.route('/weather/<int:id>', methods=['GET'])
+@bp.route('/weather/<string:id>', methods=['GET'])
 def get_weather(id):
     weather = Weather.query.get_or_404(id)
     return jsonify({col.name: getattr(weather, col.name) for col in weather.__table__.columns})
@@ -39,7 +39,7 @@ def get_all_weather():
     return jsonify(weather_data)
 
 
-@bp.route('/weather/<int:id>', methods=['PUT'])
+@bp.route('/weather/<string:id>', methods=['PUT'])
 def update_weather(id):
     data = request.get_json()
     weather = Weather.query.get_or_404(id)
@@ -49,7 +49,7 @@ def update_weather(id):
     return jsonify({"message": "Weather updated!"})
 
 
-@bp.route('/weather/<int:id>', methods=['DELETE'])
+@bp.route('/weather/<string:id>', methods=['DELETE'])
 def delete_weather(id):
     weather = Weather.query.get_or_404(id)
     db.session.delete(weather)
