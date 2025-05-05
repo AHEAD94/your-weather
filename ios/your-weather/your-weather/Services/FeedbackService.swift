@@ -83,7 +83,7 @@ class FeedbackService {
         }.resume()
     }
     
-    func deleteWeatherFeedback(feedbackID: Int, completion: @escaping (Bool) -> Void) {
+    func deleteWeatherFeedback(feedbackID: String, completion: @escaping (Bool) -> Void) {
         guard let url = URL(string: "http://127.0.0.1:5000/weather/\(feedbackID)") else {
             print("Invalid URL")
             completion(false)

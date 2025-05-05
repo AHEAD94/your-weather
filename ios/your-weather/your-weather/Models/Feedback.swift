@@ -8,7 +8,7 @@
 import Foundation
 
 struct Feedback: Codable, Identifiable, Equatable {
-    var id: Int
+    var id: String
     var date: String
     var city: String
     var time: String

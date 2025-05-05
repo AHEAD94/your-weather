@@ -2,7 +2,7 @@ from . import db
 
 
 class Weather(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String(120), primary_key=True)
     date = db.Column(db.String(120), nullable=False)
     time = db.Column(db.String(120), nullable=False)
     city = db.Column(db.String(120), nullable=False)
