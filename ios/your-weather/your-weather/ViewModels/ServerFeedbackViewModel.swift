@@ -13,10 +13,6 @@ class ServerFeedbackViewModel: ObservableObject {
     
     private let feedbackService = FeedbackService()
     
-    init() {
-        fetchFeedback()
-    }
-
     func fetchFeedback() {
         isLoading = true
         feedbackService.fetchWeatherFeedback { [weak self] feedbackArray in

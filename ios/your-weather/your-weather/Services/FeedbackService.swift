@@ -33,7 +33,7 @@ class FeedbackService {
             }
             
             guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 201 else {
-                print("Failed to add weather data")
+                print("Failed to post weather data")
                 return
             }
             
